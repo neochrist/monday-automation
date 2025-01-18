@@ -1,0 +1,27 @@
+version: '3'
+services:
+  flask-app:
+    build: .
+    ports:
+      - "8080:8080"
+      - "4040:4040"
+    environment:
+      - NGROK_AUTHTOKEN=2rniquzAvXZli2JpP8gjp37IOvE_2o4S1XGcWsnDRBMF4BcVj
+      - AUTODESK_TOKEN=${AUTODESK_TOKEN}
+      - MONDAY_API_TOKEN=test
+      - MONDAY_BOARD_ID=123456
+      - TEST_MODE=true
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  test-runner:
+    build: .
+    depends_on:
+      flask-app:
+        condition: service_healthy
+    environment:
+      - TEST_MODE=true
+    command: python tests/test_webhook.py 
