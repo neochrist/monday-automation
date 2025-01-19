@@ -46,4 +46,4 @@ The application includes a test runner service that executes tests using the `te
 ## Notes
 
 - Ensure you have access to a project in BuildingConnected to fully test the integration.
-- For any issues, please contact the development team.
+- Ensure you have ngrok account and auth token
